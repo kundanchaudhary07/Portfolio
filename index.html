@@ -372,20 +372,57 @@ section {
     margin-bottom: 15px;
 }
 .about-stats {
-    display: flex;
-    gap: 40px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
     margin: 30px 0;
-    flex-wrap: wrap;
 }
-.about-stats div h4 {
-    font-size: 32px;
+.stat-card {
+    position: relative;
+    background: #0d2436;
+    border: 1px solid rgba(0,238,255,.15);
+    border-radius: 14px;
+    padding: 22px 14px;
+    text-align: center;
+    overflow: hidden;
+    transition: .35s ease;
+    cursor: default;
+}
+.stat-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 0%, rgba(0,238,255,.15), transparent 65%);
+    opacity: 0;
+    transition: .35s ease;
+}
+.stat-card:hover {
+    transform: translateY(-6px);
+    border-color: rgba(0,238,255,.5);
+    box-shadow: 0 12px 26px rgba(0,238,255,.15);
+}
+.stat-card:hover::before { opacity: 1; }
+.stat-card h4 {
+    font-size: 30px;
+    font-weight: 700;
     color: #0ef;
+    position: relative;
+    z-index: 1;
 }
-.about-stats div span {
-    font-size: 13px;
+.stat-card.accent-purple h4 { color: #7b3fe4; }
+.stat-card.accent-pink h4 { color: #ff2e63; }
+.stat-card span {
+    display: block;
+    margin-top: 6px;
+    font-size: 12px;
     color: #7d97a8;
     text-transform: uppercase;
     letter-spacing: 1px;
+    position: relative;
+    z-index: 1;
+}
+@media (max-width: 617px) {
+    .about-stats { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ---------- SKILLS ---------- */
@@ -418,6 +455,70 @@ section {
 }
 .skill-box h3 { font-size: 20px; margin-bottom: 10px; }
 .skill-box p { font-size: 14px; color: #7d97a8; }
+
+/* ---------- TECHNICAL ARSENAL ---------- */
+.arsenal { background: #081b29; }
+.arsenal-sub {
+    text-align: center;
+    color: #7d97a8;
+    margin-top: -35px;
+    margin-bottom: 45px;
+    font-size: 15px;
+}
+.arsenal-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 35px;
+    flex-wrap: wrap;
+}
+.arsenal-tab {
+    background: transparent;
+    border: 1px solid rgba(0,238,255,.3);
+    color: #c7d3da;
+    padding: 10px 22px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-family: inherit;
+    cursor: pointer;
+    transition: .3s;
+}
+.arsenal-tab:hover { border-color: #0ef; color: #0ef; }
+.arsenal-tab.active {
+    background: #0ef;
+    border-color: #0ef;
+    color: #081b29;
+    font-weight: 600;
+    box-shadow: 0 0 18px rgba(0,238,255,.4);
+}
+.arsenal-panel {
+    display: none;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px;
+    max-width: 780px;
+    margin: 0 auto;
+    opacity: 0;
+    transform: translateY(15px);
+    transition: .4s ease;
+}
+.arsenal-panel.active { display: flex; }
+.arsenal-panel.active.reveal { opacity: 1; transform: translateY(0); }
+.arsenal-pill {
+    background: #0d2436;
+    border: 1px solid rgba(0,238,255,.15);
+    color: #ededed;
+    padding: 12px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    transition: .25s;
+}
+.arsenal-pill:hover {
+    border-color: #0ef;
+    color: #0ef;
+    transform: translateY(-4px);
+    box-shadow: 0 8px 18px rgba(0,238,255,.15);
+}
 
 /* ---------- PORTFOLIO ---------- */
 .portfolio { background: #081b29; }
@@ -502,58 +603,197 @@ section {
 .timeline-item h4 { font-size: 15px; color: #7d97a8; font-weight: 400; margin-bottom: 10px; }
 .timeline-item p { font-size: 14px; color: #c7d3da; }
 
-/* ---------- CONTACT ---------- */
-.contact { background: #081b29; }
-.contact-container {
-    display: grid;
-    grid-template-columns: 1fr 1.3fr;
-    gap: 50px;
+/* ---------- EDUCATION ---------- */
+.education { background: #081b29; }
+.edu-timeline {
+    max-width: 800px;
+    margin: 0 auto;
+    position: relative;
+    padding-left: 30px;
+    border-left: 2px solid rgba(123,63,228,.35);
 }
-.contact-info { opacity: 0; transform: translateX(-40px); transition: 1s; }
-.contact-info.show { opacity: 1; transform: translateX(0); }
-.contact-info h3 { font-size: 26px; margin-bottom: 15px; }
-.contact-info p { color: #c7d3da; margin-bottom: 25px; }
-.contact-info ul li {
+.edu-item {
+    position: relative;
+    background: #0d2436;
+    border: 1px solid rgba(123,63,228,.2);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 26px;
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: .8s;
+    cursor: pointer;
+}
+.edu-item.show { opacity: 1; transform: translateX(0); }
+.edu-item::before {
+    content: '';
+    position: absolute;
+    left: -38px;
+    top: 26px;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #7b3fe4;
+    box-shadow: 0 0 12px #7b3fe4;
+}
+.edu-item .edu-top {
     display: flex;
+    justify-content: space-between;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 18px;
-    font-size: 15px;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+.edu-item h3 { font-size: 20px; }
+.edu-item .edu-date {
+    color: #7b3fe4;
+    font-size: 13px;
+    letter-spacing: 1px;
+    font-family: 'Poppins', monospace;
+}
+.edu-item h4 { font-size: 14px; color: #7d97a8; font-weight: 400; margin: 6px 0 10px; }
+.edu-item .edu-score {
+    display: inline-block;
+    color: #0ef;
+    font-size: 13px;
+    font-family: monospace;
+    background: rgba(0,238,255,.08);
+    padding: 4px 10px;
+    border-radius: 6px;
+}
+.edu-item .edu-detail {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height .4s ease;
+    font-size: 14px;
     color: #c7d3da;
 }
-.contact-info ul li i {
-    width: 40px; height: 40px;
-    border: 2px solid #0ef;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    color: #0ef;
-    flex-shrink: 0;
+.edu-item.open .edu-detail { max-height: 200px; margin-top: 12px; }
+.edu-item .edu-hint { font-size: 12px; color: #57707d; margin-top: 8px; }
+
+/* ---------- CERTIFICATES ---------- */
+.certificates { background: #061420; }
+.cert-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
 }
-form { opacity: 0; transform: translateX(40px); transition: 1s; }
-form.show { opacity: 1; transform: translateX(0); }
-.input-box { display: flex; gap: 20px; margin-bottom: 20px; }
-.input-box.full { display: block; }
-form input, form textarea {
-    width: 100%;
-    padding: 14px 18px;
+.cert-card {
+    position: relative;
     background: #0d2436;
-    border: 1px solid rgba(0,238,255,.2);
-    border-radius: 8px;
+    border: 1px solid rgba(0,238,255,.15);
+    border-radius: 14px;
+    padding: 30px 20px;
+    text-align: center;
+    perspective: 1000px;
+    height: 170px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .6s ease, transform .6s ease;
+}
+.cert-card.show { opacity: 1; transform: translateY(0); }
+.cert-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform .6s;
+    transform-style: preserve-3d;
+}
+.cert-card:hover .cert-inner { transform: rotateY(180deg); }
+.cert-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+.cert-face i { font-size: 36px; color: #0ef; margin-bottom: 14px; }
+.cert-face h3 { font-size: 16px; margin-bottom: 6px; }
+.cert-face span { font-size: 13px; color: #7d97a8; }
+.cert-back {
+    transform: rotateY(180deg);
+    background: linear-gradient(135deg, #0d2436, #122f45);
+    border-radius: 14px;
+    font-size: 13px;
+    color: #c7d3da;
+}
+@media (max-width: 991px) { .cert-container { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 617px) { .cert-container { grid-template-columns: 1fr; } }
+
+/* ---------- CONTACT / CTA ---------- */
+.contact { background: #081b29; text-align: center; }
+.contact .heading { margin-bottom: 18px; }
+.cta-sub {
+    max-width: 560px;
+    margin: 0 auto 50px;
+    color: #c7d3da;
+    font-size: 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: 1s;
+}
+.cta-sub.show { opacity: 1; transform: translateY(0); }
+.cta-card {
+    max-width: 720px;
+    margin: 0 auto;
+    background: #0d2436;
+    border: 1px solid rgba(0,238,255,.15);
+    border-radius: 20px;
+    padding: 40px 36px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: 1s;
+}
+.cta-card.show { opacity: 1; transform: translateY(0); }
+.cta-row {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.cta-pill {
+    flex: 1 1 260px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #081b29;
+    border: 1px solid rgba(0,238,255,.15);
+    border-radius: 12px;
+    padding: 16px 20px;
     color: #ededed;
     font-size: 15px;
-    outline: none;
+    cursor: pointer;
     transition: .3s;
+    text-align: left;
 }
-form input:focus, form textarea:focus { border-color: #0ef; box-shadow: 0 0 10px rgba(0,238,255,.25); }
-form textarea { resize: vertical; min-height: 140px; margin-bottom: 20px; }
-form .btn-box { border: none; cursor: pointer; }
-.form-msg {
-    margin-top: 14px;
+.cta-pill i { color: #0ef; font-size: 20px; flex-shrink: 0; }
+.cta-pill:hover { border-color: #0ef; box-shadow: 0 0 16px rgba(0,238,255,.2); transform: translateY(-3px); }
+.cta-pill .copied-tag {
+    margin-left: auto;
+    font-size: 12px;
+    color: #0ef;
+    opacity: 0;
+    transition: .25s;
+}
+.cta-pill.copied .copied-tag { opacity: 1; }
+.cta-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.cta-links a {
+    padding: 12px 30px;
+    border: 2px solid #0ef;
+    border-radius: 30px;
     color: #0ef;
     font-size: 14px;
-    display: none;
+    font-weight: 600;
+    transition: .3s;
 }
-.form-msg.show { display: block; }
+.cta-links a:hover { background: #0ef; color: #081b29; box-shadow: 0 0 20px rgba(0,238,255,.4); }
 
 /* ---------- FOOTER ---------- */
 footer {
@@ -626,11 +866,10 @@ footer span { color: #0ef; }
         <a href="#home" class="logo">Portfolio<span>.</span></a>
         <nav class="navbar" id="navbar">
             <a href="#home" style="--i:1" class="active">Home</a>
-            <a href="#about" style="--i:2">About</a>
-            <a href="#skills" style="--i:3">Skills</a>
-            <a href="#portfolio" style="--i:4">Portfolio</a>
-            <a href="#experience" style="--i:5">Experience</a>
-            <a href="#contact" style="--i:6">Contact</a>
+            <a href="#skills" style="--i:2">Skills</a>
+            <a href="#portfolio" style="--i:3">Portfolio</a>
+            <a href="#experience" style="--i:4">Experience</a>
+            <a href="#contact" style="--i:5">Contact</a>
         </nav>
         <i class='bx bx-menu' id="menu-icon"></i>
     </header>
@@ -640,7 +879,7 @@ footer span { color: #0ef; }
             <h3>Hello, It's Me</h3>
             <h1>Kundan Chaudhary</h1>
             <h3>And I'm a <span class="text"></span></h3>
-            <p>"Aspiring Cloud Engineer with a strong Computer Science foundation and hands-on experience designing scalable AWS infrastructure. Skilled in Kubernetes, Terraform, and CI/CD pipelines, with a focus on building reliable, high-performance systems."</p>
+            <p>"Aspiring Cloud Engineer turning infrastructure into code. I build on AWS with Kubernetes and Terraform, and automate the boring parts with CI/CD — so systems stay reliable without constant hand-holding."</p>
             <div class="home-sci">
                 <a href="https://github.com/doombits" style="--i:7"><i class='bx bxl-github'></i></a>
                 <a href="https://www.linkedin.com/in/kundan-chaudhary-777493334/" style="--i:8"><i class='bx bxl-linkedin'></i></a>
@@ -663,18 +902,14 @@ footer span { color: #0ef; }
         </div>
         <div class="about-content">
             <h3>About <span>Me</span></h3>
-            <p>I'm Kundan Chaudhary, a Cloud Engineer who designs and operates the
-                infrastructure that keeps applications running smoothly. My work covers
-                everything from provisioning and networking to automation and
-                monitoring — the layer most users never see, but always depend on.</p>
-            <p>I work mainly with AWS, containers, and infrastructure as code, and
-                I care about building systems that fail predictably, scale
-                automatically, and don't need babysitting.</p>
+            <p>I'm Kundan Chaudhary, a Cloud Engineer who designs and operates the infrastructure that keeps applications running smoothly — from provisioning and networking to automation and monitoring. It's the layer most users never see, but always depend on.</p>
+<p>I work mainly with AWS, containers, and infrastructure as code. I care about building systems that fail predictably, scale on their own, and don't need babysitting.</p>
             <div class="about-stats">
-                <div><h4>1+</h4><span>Year Experience</span></div>
-                <div><h4>8+</h4><span>Projects Done</span></div>
-                <div><h4>99.9%</h4><span>Avg. Uptime</span></div>
-            </div>
+    <div class="stat-card"><h4 data-count="9.2" data-suffix="">0</h4><span>CGPA</span></div>
+    <div class="stat-card"><h4 data-count="1" data-suffix="+">0</h4><span>Year Experience</span></div>
+    <div class="stat-card accent-purple"><h4 data-count="8" data-suffix="+">0</h4><span>Projects Done</span></div>
+    <div class="stat-card accent-pink"><h4 data-count="4" data-suffix="">0</h4><span>Certifications</span></div>
+</div>
             <a href="#contact" class="btn-box">Let's Talk</a>
         </div>
     </section>
@@ -712,6 +947,47 @@ footer span { color: #0ef; }
                 <h3>Scripting &amp; Linux</h3>
                 <p>Python and Bash for automation, plus solid Linux systems administration.</p>
             </div>
+        </div>
+    </section>
+
+    <section class="arsenal" id="arsenal">
+        <h2 class="heading">Technical <span>Arsenal</span></h2>
+        <p class="arsenal-sub">Mastering the tools and technologies that power reliable cloud systems.</p>
+        <div class="arsenal-tabs">
+            <button class="arsenal-tab active" data-target="panel-languages">Languages</button>
+            <button class="arsenal-tab" data-target="panel-frameworks">Frameworks &amp; Tools</button>
+            <button class="arsenal-tab" data-target="panel-platforms">Platforms &amp; Cloud</button>
+        </div>
+        <div class="arsenal-panel active reveal" id="panel-languages">
+            <span class="arsenal-pill">Python</span>
+            <span class="arsenal-pill">Java</span>
+            <span class="arsenal-pill">C++</span>
+            <span class="arsenal-pill">HTML</span>
+            <span class="arsenal-pill">CSS</span>
+            <span class="arsenal-pill">JavaScript</span>
+            <span class="arsenal-pill">React.js</span>
+            <span class="arsenal-pill">Node.js</span>
+            <span class="arsenal-pill">SQL</span>
+        </div>
+        <div class="arsenal-panel" id="panel-frameworks">
+            <span class="arsenal-pill">Express.js</span>
+            <span class="arsenal-pill">NextJS</span>
+            <span class="arsenal-pill">Docker</span>
+            <span class="arsenal-pill">Terraform</span>
+            <span class="arsenal-pill">Ansible</span>
+            <span class="arsenal-pill">Fastify</span>
+            <span class="arsenal-pill">Kubernetes</span>
+            <span class="arsenal-pill">Helm</span>
+            <span class="arsenal-pill">GitHub Actions</span>
+            
+        </div>
+        <div class="arsenal-panel" id="panel-platforms">
+            <span class="arsenal-pill">AWS</span>
+            <span class="arsenal-pill">Azure</span>
+            <span class="arsenal-pill">GCP</span>
+            <span class="arsenal-pill">Prometheus</span>
+            <span class="arsenal-pill">Grafana</span>
+            <span class="arsenal-pill">Linux</span>
         </div>
     </section>
 
@@ -771,39 +1047,97 @@ footer span { color: #0ef; }
                 <h4>Previous Company</h4>
                 <p>First hands-on exposure to production cloud systems — wrote initial Terraform modules and shadowed on-call rotations.</p>
             </div>
-            <div class="timeline-item">
-                <span class="date">2024 - 2028</span>
-                <h3>Student @ LPU</h3>
-                <p>Lovely Professional University (LPU) is a leading private university in Punjab, India, known for its quality education, industry-focused curriculum, modern infrastructure, and strong emphasis on innovation, practical learning, and career development.
-</p>
+            
+        </div>
+    </section>
+
+    <section class="education" id="education">
+        <h2 class="heading">My <span>Education</span></h2>
+        <!-- Click a card to expand it. Edit the school names/dates/scores below to match your records. -->
+        <div class="edu-timeline">
+            <div class="edu-item">
+                <div class="edu-top">
+                    <h3>Lovely Professional University</h3>
+                    <span class="edu-date">2024 — 2028</span>
+                </div>
+                <h4>B.Tech, Computer Science &amp; Engineering</h4>
+                <span class="edu-score">CGPA: 9.14</span>
+                <div class="edu-detail">Coursework and hands-on projects in cloud computing, distributed systems and networking, alongside the AWS/Terraform work shown in the Skills and Projects sections above.</div>
+                <p class="edu-hint">Click to expand</p>
+            </div>
+            <div class="edu-item">
+                <div class="edu-top">
+                    <h3>Senior Secondary School</h3>
+                    <span class="edu-date">2021 — 2023</span>
+                </div>
+                <h4>Intermediate (PCM)</h4>
+                <span class="edu-score">92%</span>
+                <div class="edu-detail">Physics, Chemistry &amp; Mathematics — built the analytical foundation for engineering study.</div>
+                <p class="edu-hint">Click to expand</p>
+            </div>
+            <div class="edu-item">
+                <div class="edu-top">
+                    <h3>Secondary School</h3>
+                    <span class="edu-date">2020 — 2021</span>
+                </div>
+                <h4>Matriculation</h4>
+                <span class="edu-score">88%</span>
+                <div class="edu-detail">First introduction to computer science fundamentals and programming.</div>
+                <p class="edu-hint">Click to expand</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="certificates" id="certificates">
+        <h2 class="heading">My <span>Certificates</span></h2>
+        <!-- Hover/tap a card to flip it. Swap in your real certificates + issuers here. -->
+        <div class="cert-container">
+            <div class="cert-card">
+                <div class="cert-inner">
+                    <div class="cert-face cert-front"><i class='bx bxl-amazon'></i><h3>AWS Cloud Practitioner</h3><span>Amazon Web Services</span></div>
+                    <div class="cert-face cert-back">Foundational certification covering core AWS services, billing and the shared responsibility model.</div>
+                </div>
+            </div>
+            <div class="cert-card">
+                <div class="cert-inner">
+                    <div class="cert-face cert-front"><i class='bx bx-cube'></i><h3>Kubernetes for Developers</h3><span>Coursera</span></div>
+                    <div class="cert-face cert-back">Deploying, scaling and managing containerized workloads on Kubernetes clusters.</div>
+                </div>
+            </div>
+            <div class="cert-card">
+                <div class="cert-inner">
+                    <div class="cert-face cert-front"><i class='bx bx-code-block'></i><h3>Terraform Associate Prep</h3><span>HashiCorp</span></div>
+                    <div class="cert-face cert-back">Infrastructure as code fundamentals, state management and module design.</div>
+                </div>
+            </div>
+            <div class="cert-card">
+                <div class="cert-inner">
+                    <div class="cert-face cert-front"><i class='bx bx-trophy'></i><h3>Campus DevOps Hackathon</h3><span>LPU</span></div>
+                    <div class="cert-face cert-back">Built and shipped a CI/CD pipeline for a team project within a 24-hour hackathon.</div>
+                </div>
             </div>
         </div>
     </section>
 
     <section class="contact" id="contact">
-        <h2 class="heading">Contact <span>Me</span></h2>
-        <div class="contact-container">
-            <div class="contact-info">
-                <h3>Let's talk infrastructure</h3>
-                <p>Open to cloud engineering roles, freelance infra work, or just a conversation about Kubernetes.</p>
-                <ul>
-                    <li><i class='bx bx-envelope'></i> kundanofficial2005@gmail.com</li>
-                    <li><i class='bx bx-map'></i> India — open to remote</li>
-                    <li><i class='bx bxl-linkedin'></i> https://www.linkedin.com/in/kundan-chaudhary-777493334/</li>
-                </ul>
+        <h2 class="heading">Let's Build Something <span>Amazing</span></h2>
+        <p class="cta-sub">Open to cloud engineering roles, freelance infrastructure work, or just a conversation about Kubernetes.</p>
+        <div class="cta-card">
+            <div class="cta-row">
+                <!-- Click to copy. Update the phone number to your own. -->
+                <div class="cta-pill" data-copy="kundanofficial2005@gmail.com">
+                    <i class='bx bx-envelope'></i> kundanofficial2005@gmail.com
+                    <span class="copied-tag">Copied!</span>
+                </div>
+                <div class="cta-pill" data-copy="+91 8092728288">
+                    <i class='bx bx-phone'></i> +91 8092728288
+                    <span class="copied-tag">Copied!</span>
+                </div>
             </div>
-            <form id="contactForm">
-                <div class="input-box">
-                    <input type="text" placeholder="Full Name" required>
-                    <input type="email" placeholder="Email Address" required>
-                </div>
-                <div class="input-box full">
-                    <input type="text" placeholder="Subject" required>
-                </div>
-                <textarea placeholder="Your Message" required></textarea>
-                <button type="submit" class="btn-box">Send Message</button>
-                <p class="form-msg" id="formMsg">✓ Message sent! I'll get back to you soon.</p>
-            </form>
+            <div class="cta-links">
+                <a href="https://www.linkedin.com/in/kundan-chaudhary-777493334/" target="_blank" rel="noopener">LinkedIn</a>
+                <a href="https://github.com/doombits" target="_blank" rel="noopener">GitHub</a>
+            </div>
         </div>
     </section>
 
@@ -859,7 +1193,7 @@ footer span { color: #0ef; }
 
     // scroll reveal
     const revealEls = document.querySelectorAll(
-        '.heading, .about-img, .about-content, .skill-box, .portfolio-box, .timeline-item, .contact-info, form'
+        '.heading, .about-img, .about-content, .skill-box, .portfolio-box, .timeline-item, .edu-item, .cert-card, .cta-sub, .cta-card'
     );
     const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -871,14 +1205,56 @@ footer span { color: #0ef; }
     }, { threshold: 0.15 });
     revealEls.forEach(el => io.observe(el));
 
-    // contact form (front-end only)
-    const form = document.getElementById('contactForm');
-    const msg = document.getElementById('formMsg');
-    form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        msg.classList.add('show');
-        form.reset();
-        setTimeout(() => msg.classList.remove('show'), 5000);
+    // stat cards: count up once visible
+    const statEls = document.querySelectorAll('.stat-card h4');
+    const statIO = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (!entry.isIntersecting) return;
+            const el = entry.target;
+            const target = parseFloat(el.dataset.count);
+            const suffix = el.dataset.suffix || '';
+            const isDecimal = String(el.dataset.count).includes('.');
+            const duration = 1200;
+            const start = performance.now();
+            function tick(now) {
+                const progress = Math.min((now - start) / duration, 1);
+                const value = target * progress;
+                el.textContent = (isDecimal ? value.toFixed(1) : Math.floor(value)) + suffix;
+                if (progress < 1) requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+            statIO.unobserve(el);
+        });
+    }, { threshold: 0.4 });
+    statEls.forEach(el => statIO.observe(el));
+
+    // technical arsenal: tab switching
+    const arsenalTabs = document.querySelectorAll('.arsenal-tab');
+    const arsenalPanels = document.querySelectorAll('.arsenal-panel');
+    arsenalTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            arsenalTabs.forEach(t => t.classList.remove('active'));
+            arsenalPanels.forEach(p => p.classList.remove('active', 'reveal'));
+            tab.classList.add('active');
+            const panel = document.getElementById(tab.dataset.target);
+            panel.classList.add('active');
+            requestAnimationFrame(() => panel.classList.add('reveal'));
+        });
+    });
+
+    // education: click a card to expand its detail
+    document.querySelectorAll('.edu-item').forEach(item => {
+        item.addEventListener('click', () => item.classList.toggle('open'));
+    });
+
+    // contact pills: click to copy email/phone
+    document.querySelectorAll('.cta-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+            const value = pill.dataset.copy;
+            navigator.clipboard?.writeText(value).catch(() => {});
+            pill.classList.add('copied');
+            setTimeout(() => pill.classList.remove('copied'), 1500);
+        });
     });
 </script>
 </body>
