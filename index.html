@@ -998,7 +998,7 @@ footer span { color: #0ef; }
             <div class="home-sci">
                 <a href="https://github.com/doombits" style="--i:7"><i class='bx bxl-github'></i></a>
                 <a href="https://www.linkedin.com/in/kundan-chaudhary-777493334/" style="--i:8"><i class='bx bxl-linkedin'></i></a>
-                <a href="mailto:kundanchy05@gmail.com" style="--i:9"><i class='bx bx-envelope'></i></a>
+                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kundanchy05@gmail.com" target="_blank" rel="noopener" style="--i:9"><i class='bx bx-envelope'></i></a>
             </div>
             <a href="#about" class="btn-box">More About Me</a>
             <a href="KundanCV.pdf" download class="btn-box outline">Download CV</a>
@@ -1265,10 +1265,9 @@ footer span { color: #0ef; }
         <div class="cta-card">
             <div class="cta-row">
                 <!-- Click to copy. Update the phone number to your own. -->
-                <div class="cta-pill" data-copy="kundanchy05@gmail.com">
+                <a class="cta-pill" href="https://mail.google.com/mail/?view=cm&fs=1&to=kundanchy05@gmail.com" target="_blank" rel="noopener">
                     <i class='bx bx-envelope'></i> kundanchy05@gmail.com
-                    <span class="copied-tag">Copied!</span>
-                </div>
+                </a>
                 <div class="cta-pill" data-copy="+91 8092728288">
                     <i class='bx bx-phone'></i> +91 8092728288
                     <span class="copied-tag">Copied!</span>
@@ -1395,7 +1394,7 @@ footer span { color: #0ef; }
     });
 
     // contact pills: click to copy email/phone
-    document.querySelectorAll('.cta-pill').forEach(pill => {
+    document.querySelectorAll('.cta-pill[data-copy]').forEach(pill => {
         pill.addEventListener('click', () => {
             const value = pill.dataset.copy;
             navigator.clipboard?.writeText(value).catch(() => {});
@@ -1439,10 +1438,11 @@ footer span { color: #0ef; }
                 const count = (calendar && calendar[ts]) || 0;
                 const cell = document.createElement('div');
                 let level = 'l0';
-                if (count > 0 && count <= 1) level = 'l1';
+                if (count === 0) level = 'l0';
+                else if (count <= 1) level = 'l1';
                 else if (count <= 3) level = 'l2';
                 else if (count <= 6) level = 'l3';
-                else if (count > 6) level = 'l4';
+                else level = 'l4';
                 cell.className = 'lc-day ' + level;
                 cell.title = `${new Date(d).toDateString()}: ${count} submission${count === 1 ? '' : 's'}`;
                 heatmapEl.appendChild(cell);
@@ -1451,40 +1451,83 @@ footer span { color: #0ef; }
             dateEndEl.textContent = today.toISOString().slice(0, 10);
         }
 
-        fetch(`https://leetcode-stats-api.herokuapp.com/${username}`)
-            .then(res => {
-                if (!res.ok) throw new Error('bad response');
-                return res.json();
-            })
-            .then(data => {
-                totalEl.textContent = data.totalSolved ?? '—';
-                setBar('easy', data.easySolved, data.totalEasy);
-                setBar('medium', data.mediumSolved, data.totalMedium);
-                setBar('hard', data.hardSolved, data.totalHard);
-                rankEl.textContent = data.ranking ? `#${data.ranking}` : '';
+        async function fetchPrimary() {
+            const res = await fetch(`https://leetcode-api-faisalshohag.vercel.app/${username}`);
+            if (!res.ok) throw new Error('primary source failed');
+            const data = await res.json();
+            let calendar = {};
+            try {
+                calendar = typeof data.submissionCalendar === 'string'
+                    ? JSON.parse(data.submissionCalendar)
+                    : (data.submissionCalendar || {});
+            } catch (e) { calendar = {}; }
+            return {
+                totalSolved: data.totalSolved,
+                totalQuestions: data.totalQuestions,
+                easySolved: data.easySolved, totalEasy: data.totalEasy,
+                mediumSolved: data.mediumSolved, totalMedium: data.totalMedium,
+                hardSolved: data.hardSolved, totalHard: data.totalHard,
+                ranking: data.ranking,
+                calendar
+            };
+        }
 
-                if (data.totalSolved && data.totalQuestions) {
-                    const circumference = 2 * Math.PI * 60; // ~377
-                    const pct = Math.min(data.totalSolved / data.totalQuestions, 1);
-                    requestAnimationFrame(() => {
-                        ringProgress.style.strokeDashoffset = circumference * (1 - pct);
-                    });
+        async function fetchFallback() {
+            const res = await fetch(`https://alfa-leetcode-api.onrender.com/${username}/solved`);
+            if (!res.ok) throw new Error('fallback source failed');
+            const data = await res.json();
+            let calendar = {};
+            try {
+                const calRes = await fetch(`https://alfa-leetcode-api.onrender.com/${username}/calendar`);
+                if (calRes.ok) {
+                    const calData = await calRes.json();
+                    calendar = typeof calData.submissionCalendar === 'string'
+                        ? JSON.parse(calData.submissionCalendar)
+                        : (calData.submissionCalendar || {});
                 }
+            } catch (e) { calendar = {}; }
+            return {
+                totalSolved: data.solvedProblem ?? data.totalSolved,
+                totalQuestions: data.totalQuestions,
+                easySolved: data.easySolved, totalEasy: data.totalEasy,
+                mediumSolved: data.mediumSolved, totalMedium: data.totalMedium,
+                hardSolved: data.hardSolved, totalHard: data.totalHard,
+                ranking: data.ranking,
+                calendar
+            };
+        }
 
-                let calendar = {};
+        (async () => {
+            let stats;
+            try {
+                stats = await fetchPrimary();
+            } catch (e1) {
                 try {
-                    calendar = typeof data.submissionCalendar === 'string'
-                        ? JSON.parse(data.submissionCalendar)
-                        : (data.submissionCalendar || {});
-                } catch (e) { calendar = {}; }
-                buildHeatmap(calendar);
+                    stats = await fetchFallback();
+                } catch (e2) {
+                    buildHeatmap({});
+                    statusEl.textContent = 'Stats unavailable right now — visit the profile link below';
+                    return;
+                }
+            }
 
-                statusEl.textContent = 'Live — updates automatically each time you visit';
-            })
-            .catch(() => {
-                buildHeatmap({});
-                statusEl.textContent = 'Stats unavailable right now — visit the profile link below';
-            });
+            totalEl.textContent = stats.totalSolved ?? '—';
+            setBar('easy', stats.easySolved, stats.totalEasy);
+            setBar('medium', stats.mediumSolved, stats.totalMedium);
+            setBar('hard', stats.hardSolved, stats.totalHard);
+            rankEl.textContent = stats.ranking ? `#${stats.ranking}` : '';
+
+            if (stats.totalSolved && stats.totalQuestions) {
+                const circumference = 2 * Math.PI * 60; // ~377
+                const pct = Math.min(stats.totalSolved / stats.totalQuestions, 1);
+                requestAnimationFrame(() => {
+                    ringProgress.style.strokeDashoffset = circumference * (1 - pct);
+                });
+            }
+
+            buildHeatmap(stats.calendar);
+            statusEl.textContent = 'Live — updates automatically each time you visit';
+        })();
     })();
 </script>
 </body>
