@@ -539,11 +539,11 @@ section {
 }
 .portfolio-box.show { opacity: 1; transform: translateY(0); }
 .portfolio-box .thumb {
-    height: 190px;
+    height: 260px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #0a2439, #081b29);
+    background: #060f1a;
     font-size: 46px;
     color: #0ef;
     border-bottom: 1px solid rgba(0,238,255,.15);
@@ -552,7 +552,7 @@ section {
 .portfolio-box .thumb img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     display: block;
 }
 .portfolio-info { padding: 24px 26px 28px; }
@@ -1125,20 +1125,20 @@ footer span { color: #0ef; }
         <h2 class="heading">My <span>Projects</span></h2>
         <div class="portfolio-container">
             <div class="portfolio-box">
-                <div class="thumb"><img src="Exam_LogiX.png" alt="Exam LogiX project"></div>
+                <div class="thumb"><img src="Exam_LogiX.png" alt="Exam LogiX architecture diagram"></div>
                 <div class="portfolio-info">
-                    <h4>Multi-Region K8s Pipeline</h4>
-                    <p>Blue/green deployment pipeline across two AWS regions with automatic rollback on failed health checks.</p>
-                    <div class="tag-row"><span>Kubernetes</span><span>Terraform</span><span>GitHub Actions</span></div>
+                    <h4>Exam LogiX</h4>
+                    <p>An intelligent online examination platform with AI-assisted proctoring — real-time monitoring, background noise detection, and automated evaluation to keep remote assessments secure. JWT auth and role-based workflows for students and admins, with WebRTC and Web Audio APIs powering live proctoring.</p>
+                    <div class="tag-row"><span>React.js</span><span>Node.js</span><span>MongoDB</span><span>WebRTC</span><span>JWT</span></div>
                     <a href="https://github.com/kundanchaudhary07/Exam-Logix" target="_blank" rel="noopener" class="btn-box">View Project</a>
                 </div>
             </div>
             <div class="portfolio-box">
-                <div class="thumb"><img src="Infra_Flow.png" alt="Infra Flow project"></div>
+                <div class="thumb"><img src="Infra_Flow.png" alt="Infra Flow architecture diagram"></div>
                 <div class="portfolio-info">
-                    <h4>Serverless Data Pipeline</h4>
-                    <p>Event-driven ingestion pipeline processing millions of records daily with Lambda, SQS and S3.</p>
-                    <div class="tag-row"><span>AWS Lambda</span><span>SQS</span><span>Python</span></div>
+                    <h4>Infra Flow</h4>
+                    <p>A cloud-native AI deployment and operations platform automating application delivery, containerized workloads, and infrastructure provisioning across environments. CI/CD via Jenkins and Terraform, Kubernetes-based orchestration and autoscaling, with Prometheus and Grafana for monitoring.</p>
+                    <div class="tag-row"><span>AWS</span><span>Docker</span><span>Kubernetes</span><span>Jenkins</span><span>Terraform</span></div>
                     <a href="https://github.com/kundanchaudhary07/InfraFlow" target="_blank" rel="noopener" class="btn-box">View Project</a>
                 </div>
             </div>
@@ -1425,16 +1425,16 @@ footer span { color: #0ef; }
 
         function buildHeatmap(calendar) {
             heatmapEl.innerHTML = '';
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
+            const now = new Date();
+            const todayUTC = Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate());
             const days = 364; // 52 weeks
-            const start = new Date(today);
-            start.setDate(start.getDate() - (days - 1));
-            // align to the previous Sunday so columns are full weeks
-            start.setDate(start.getDate() - start.getDay());
+            let startUTC = todayUTC - (days - 1) * 86400000;
+            // align to the previous Sunday (UTC) so columns are full weeks
+            const startDow = new Date(startUTC).getUTCDay();
+            startUTC -= startDow * 86400000;
 
-            for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
-                const ts = Math.floor(new Date(d).setHours(0, 0, 0, 0) / 1000).toString();
+            for (let t = startUTC; t <= todayUTC; t += 86400000) {
+                const ts = Math.floor(t / 1000).toString();
                 const count = (calendar && calendar[ts]) || 0;
                 const cell = document.createElement('div');
                 let level = 'l0';
@@ -1444,11 +1444,11 @@ footer span { color: #0ef; }
                 else if (count <= 6) level = 'l3';
                 else level = 'l4';
                 cell.className = 'lc-day ' + level;
-                cell.title = `${new Date(d).toDateString()}: ${count} submission${count === 1 ? '' : 's'}`;
+                cell.title = `${new Date(t).toISOString().slice(0, 10)}: ${count} submission${count === 1 ? '' : 's'}`;
                 heatmapEl.appendChild(cell);
             }
-            dateStartEl.textContent = start.toISOString().slice(0, 10);
-            dateEndEl.textContent = today.toISOString().slice(0, 10);
+            dateStartEl.textContent = new Date(startUTC).toISOString().slice(0, 10);
+            dateEndEl.textContent = new Date(todayUTC).toISOString().slice(0, 10);
         }
 
         async function fetchPrimary() {
