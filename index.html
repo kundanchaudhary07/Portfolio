@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
-    <script src="https://unpkg.com/typed.js@2.0.15/dist/typed.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.16/typed.umd.js"></script>
 <style>
 * {
     margin: 0;
@@ -547,6 +547,13 @@ section {
     font-size: 46px;
     color: #0ef;
     border-bottom: 1px solid rgba(0,238,255,.15);
+    overflow: hidden;
+}
+.portfolio-box .thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
 }
 .portfolio-info { padding: 24px 26px 28px; }
 .portfolio-info h4 { font-size: 20px; margin-bottom: 8px; }
@@ -565,43 +572,6 @@ section {
     animation: none;
     opacity: 1;
 }
-
-/* ---------- EXPERIENCE ---------- */
-.experience { background: #061420; }
-.timeline {
-    max-width: 800px;
-    margin: 0 auto;
-    position: relative;
-    padding-left: 30px;
-    border-left: 2px solid rgba(0,238,255,.3);
-}
-.timeline-item {
-    position: relative;
-    padding-bottom: 45px;
-    opacity: 0;
-    transform: translateX(-30px);
-    transition: .8s;
-}
-.timeline-item.show { opacity: 1; transform: translateX(0); }
-.timeline-item::before {
-    content: '';
-    position: absolute;
-    left: -38px;
-    top: 4px;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #0ef;
-    box-shadow: 0 0 12px #0ef;
-}
-.timeline-item span.date {
-    color: #0ef;
-    font-size: 13px;
-    letter-spacing: 1px;
-}
-.timeline-item h3 { font-size: 21px; margin: 6px 0 4px; }
-.timeline-item h4 { font-size: 15px; color: #7d97a8; font-weight: 400; margin-bottom: 10px; }
-.timeline-item p { font-size: 14px; color: #c7d3da; }
 
 /* ---------- EDUCATION ---------- */
 .education { background: #081b29; }
@@ -721,6 +691,151 @@ section {
 }
 @media (max-width: 991px) { .cert-container { grid-template-columns: repeat(2, 1fr); } }
 @media (max-width: 617px) { .cert-container { grid-template-columns: 1fr; } }
+
+/* ---------- LEETCODE ---------- */
+.leetcode { background: #081b29; }
+.leetcode-card {
+    max-width: 780px;
+    margin: 0 auto;
+    background: #0d2436;
+    border: 1px solid rgba(0,238,255,.15);
+    border-radius: 18px;
+    padding: 34px 36px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: .8s;
+}
+.leetcode-card.show { opacity: 1; transform: translateY(0); }
+.leetcode-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 28px;
+}
+.leetcode-user { display: flex; align-items: center; gap: 12px; }
+.leetcode-user i { font-size: 28px; color: #0ef; }
+.leetcode-top h3 { font-size: 20px; }
+.leetcode-rank {
+    color: #7d97a8;
+    font-size: 14px;
+    font-family: monospace;
+    background: rgba(0,238,255,.08);
+    padding: 5px 12px;
+    border-radius: 20px;
+}
+.leetcode-body {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+.lc-ring-wrap {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    flex-shrink: 0;
+    margin: 0 auto;
+}
+.lc-ring { width: 140px; height: 140px; transform: rotate(-90deg); }
+.lc-ring-bg {
+    fill: none;
+    stroke: #16324a;
+    stroke-width: 10;
+}
+.lc-ring-progress {
+    fill: none;
+    stroke: #0ef;
+    stroke-width: 10;
+    stroke-linecap: round;
+    stroke-dasharray: 377;
+    stroke-dashoffset: 377;
+    transition: stroke-dashoffset 1s ease;
+}
+.lc-ring-label {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.lc-ring-label h4 { font-size: 30px; font-weight: 700; color: #ededed; }
+.lc-ring-label span { font-size: 11px; color: #7d97a8; text-transform: uppercase; letter-spacing: 1px; }
+.lc-bars {
+    flex: 1 1 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.lc-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 6px;
+}
+.lc-bar-label span:first-child { font-weight: 600; }
+.lc-bar-label span:last-child { color: #7d97a8; font-family: monospace; font-size: 13px; }
+.lc-bar-track {
+    height: 8px;
+    background: #16324a;
+    border-radius: 6px;
+    overflow: hidden;
+}
+.lc-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 6px;
+    transition: width 1s ease;
+}
+.lc-bar-fill.easy { background: #2bd576; }
+.lc-bar-fill.medium { background: #ffb200; }
+.lc-bar-fill.hard { background: #ff2e63; }
+.lc-heatmap-wrap {
+    margin-top: 30px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(0,238,255,.12);
+}
+.lc-heatmap-title { font-size: 13px; color: #7d97a8; margin-bottom: 12px; }
+.lc-heatmap {
+    display: grid;
+    grid-auto-flow: column;
+    grid-template-rows: repeat(7, 1fr);
+    gap: 3px;
+    overflow-x: auto;
+}
+.lc-day {
+    width: 10px;
+    height: 10px;
+    border-radius: 2px;
+    background: #16324a;
+}
+.lc-day.l1 { background: #0a3d2e; }
+.lc-day.l2 { background: #0e6b46; }
+.lc-day.l3 { background: #16a34a; }
+.lc-day.l4 { background: #2bd576; }
+.lc-heatmap-dates {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    font-size: 11px;
+    color: #57707d;
+}
+.leetcode-note {
+    margin-top: 18px;
+    font-size: 12px;
+    color: #57707d;
+    text-align: center;
+}
+.leetcode-link {
+    display: block;
+    text-align: center;
+    margin-top: 22px;
+}
+@media (max-width: 617px) {
+    .leetcode-body { justify-content: center; }
+}
 
 /* ---------- CONTACT / CTA ---------- */
 .contact { background: #081b29; text-align: center; }
@@ -868,7 +983,7 @@ footer span { color: #0ef; }
             <a href="#home" style="--i:1" class="active">Home</a>
             <a href="#skills" style="--i:2">Skills</a>
             <a href="#portfolio" style="--i:3">Portfolio</a>
-            <a href="#experience" style="--i:4">Experience</a>
+            <a href="#leetcode" style="--i:4">LeetCode</a>
             <a href="#contact" style="--i:5">Contact</a>
         </nav>
         <i class='bx bx-menu' id="menu-icon"></i>
@@ -883,11 +998,10 @@ footer span { color: #0ef; }
             <div class="home-sci">
                 <a href="https://github.com/doombits" style="--i:7"><i class='bx bxl-github'></i></a>
                 <a href="https://www.linkedin.com/in/kundan-chaudhary-777493334/" style="--i:8"><i class='bx bxl-linkedin'></i></a>
-                <a href="https://www.instagram.com/kdx05/" style="--i:9"><i class='bx bxl-instagram'></i></a>
-                <a href="#" style="--i:10"><i class='bx bx-envelope'></i></a>
+                <a href="mailto:kundanchy05@gmail.com" style="--i:9"><i class='bx bx-envelope'></i></a>
             </div>
             <a href="#about" class="btn-box">More About Me</a>
-            <a href="#contact" class="btn-box outline">Hire Me</a>
+            <a href="KundanCV.pdf" download class="btn-box outline">Download CV</a>
         </div>
         
     </section>
@@ -905,9 +1019,9 @@ footer span { color: #0ef; }
             <p>I'm Kundan Chaudhary, a Cloud Engineer who designs and operates the infrastructure that keeps applications running smoothly — from provisioning and networking to automation and monitoring. It's the layer most users never see, but always depend on.</p>
 <p>I work mainly with AWS, containers, and infrastructure as code. I care about building systems that fail predictably, scale on their own, and don't need babysitting.</p>
             <div class="about-stats">
-    <div class="stat-card"><h4 data-count="9.2" data-suffix="">0</h4><span>CGPA</span></div>
-    <div class="stat-card"><h4 data-count="1" data-suffix="+">0</h4><span>Year Experience</span></div>
-    <div class="stat-card accent-purple"><h4 data-count="8" data-suffix="+">0</h4><span>Projects Done</span></div>
+    <div class="stat-card"><h4 data-count="8.91" data-suffix="">0</h4><span>CGPA</span></div>
+    <div class="stat-card"><h4 data-count="0" data-suffix="">0</h4><span>Year Experience</span></div>
+    <div class="stat-card accent-purple"><h4 data-count="2" data-suffix="+">0</h4><span>Projects Done</span></div>
     <div class="stat-card accent-pink"><h4 data-count="4" data-suffix="">0</h4><span>Certifications</span></div>
 </div>
             <a href="#contact" class="btn-box">Let's Talk</a>
@@ -955,39 +1069,55 @@ footer span { color: #0ef; }
         <p class="arsenal-sub">Mastering the tools and technologies that power reliable cloud systems.</p>
         <div class="arsenal-tabs">
             <button class="arsenal-tab active" data-target="panel-languages">Languages</button>
-            <button class="arsenal-tab" data-target="panel-frameworks">Frameworks &amp; Tools</button>
-            <button class="arsenal-tab" data-target="panel-platforms">Platforms &amp; Cloud</button>
+            <button class="arsenal-tab" data-target="panel-frontend">Frontend</button>
+            <button class="arsenal-tab" data-target="panel-backend">Backend</button>
+            <button class="arsenal-tab" data-target="panel-database">Database</button>
+            <button class="arsenal-tab" data-target="panel-tools">Tools</button>
+            <button class="arsenal-tab" data-target="panel-cloud">Cloud &amp; DevOps</button>
         </div>
         <div class="arsenal-panel active reveal" id="panel-languages">
-            <span class="arsenal-pill">Python</span>
-            <span class="arsenal-pill">Java</span>
             <span class="arsenal-pill">C++</span>
-            <span class="arsenal-pill">HTML</span>
-            <span class="arsenal-pill">CSS</span>
+            <span class="arsenal-pill">Java</span>
             <span class="arsenal-pill">JavaScript</span>
+            <span class="arsenal-pill">C</span>
+            <span class="arsenal-pill">Python</span>
+        </div>
+        <div class="arsenal-panel" id="panel-frontend">
             <span class="arsenal-pill">React.js</span>
+            <span class="arsenal-pill">React Native</span>
+            <span class="arsenal-pill">HTML5</span>
+            <span class="arsenal-pill">CSS3</span>
+            <span class="arsenal-pill">Tailwind CSS</span>
+        </div>
+        <div class="arsenal-panel" id="panel-backend">
             <span class="arsenal-pill">Node.js</span>
-            <span class="arsenal-pill">SQL</span>
-        </div>
-        <div class="arsenal-panel" id="panel-frameworks">
             <span class="arsenal-pill">Express.js</span>
-            <span class="arsenal-pill">NextJS</span>
-            <span class="arsenal-pill">Docker</span>
-            <span class="arsenal-pill">Terraform</span>
-            <span class="arsenal-pill">Ansible</span>
-            <span class="arsenal-pill">Fastify</span>
-            <span class="arsenal-pill">Kubernetes</span>
-            <span class="arsenal-pill">Helm</span>
-            <span class="arsenal-pill">GitHub Actions</span>
-            
+            <span class="arsenal-pill">REST APIs</span>
         </div>
-        <div class="arsenal-panel" id="panel-platforms">
+        <div class="arsenal-panel" id="panel-database">
+            <span class="arsenal-pill">MongoDB</span>
+            <span class="arsenal-pill">PostgreSQL</span>
+        </div>
+        <div class="arsenal-panel" id="panel-tools">
+            <span class="arsenal-pill">Git</span>
+            <span class="arsenal-pill">GitHub</span>
+            <span class="arsenal-pill">Figma</span>
+            <span class="arsenal-pill">Render</span>
+            <span class="arsenal-pill">Vercel</span>
+            <span class="arsenal-pill">Supabase</span>
+        </div>
+        <div class="arsenal-panel" id="panel-cloud">
+            <span class="arsenal-pill">Git</span>
+            <span class="arsenal-pill">GitHub</span>
+            <span class="arsenal-pill">Postman</span>
             <span class="arsenal-pill">AWS</span>
             <span class="arsenal-pill">Azure</span>
-            <span class="arsenal-pill">GCP</span>
-            <span class="arsenal-pill">Prometheus</span>
+            <span class="arsenal-pill">Docker</span>
+            <span class="arsenal-pill">Kubernetes</span>
+            <span class="arsenal-pill">Terraform</span>
+            <span class="arsenal-pill">Ansible</span>
+            <span class="arsenal-pill">Jenkins</span>
             <span class="arsenal-pill">Grafana</span>
-            <span class="arsenal-pill">Linux</span>
         </div>
     </section>
 
@@ -995,59 +1125,23 @@ footer span { color: #0ef; }
         <h2 class="heading">My <span>Projects</span></h2>
         <div class="portfolio-container">
             <div class="portfolio-box">
-                <div class="thumb"><i class='bx bx-git-merge'></i></div>
+                <div class="thumb"><img src="Exam_LogiX.png" alt="Exam LogiX project"></div>
                 <div class="portfolio-info">
                     <h4>Multi-Region K8s Pipeline</h4>
                     <p>Blue/green deployment pipeline across two AWS regions with automatic rollback on failed health checks.</p>
                     <div class="tag-row"><span>Kubernetes</span><span>Terraform</span><span>GitHub Actions</span></div>
-                    <a href="#" class="btn-box">View Project</a>
+                    <a href="https://github.com/kundanchaudhary07/Exam-Logix" target="_blank" rel="noopener" class="btn-box">View Project</a>
                 </div>
             </div>
             <div class="portfolio-box">
-                <div class="thumb"><i class='bx bx-data'></i></div>
+                <div class="thumb"><img src="Infra_Flow.png" alt="Infra Flow project"></div>
                 <div class="portfolio-info">
                     <h4>Serverless Data Pipeline</h4>
                     <p>Event-driven ingestion pipeline processing millions of records daily with Lambda, SQS and S3.</p>
                     <div class="tag-row"><span>AWS Lambda</span><span>SQS</span><span>Python</span></div>
-                    <a href="#" class="btn-box">View Project</a>
+                    <a href="https://github.com/kundanchaudhary07/InfraFlow" target="_blank" rel="noopener" class="btn-box">View Project</a>
                 </div>
             </div>
-            <div class="portfolio-box">
-                <div class="thumb"><i class='bx bx-package'></i></div>
-                <div class="portfolio-info">
-                    <h4>Terraform Module Library</h4>
-                    <p>Reusable, tested infrastructure modules that cut new environment setup from days to hours.</p>
-                    <div class="tag-row"><span>Terraform</span><span>AWS</span><span>CI/CD</span></div>
-                    <a href="#" class="btn-box">View Project</a>
-                </div>
-            </div>
-            <div class="portfolio-box">
-                <div class="thumb"><i class='bx bx-line-chart'></i></div>
-                <div class="portfolio-info">
-                    <h4>Cost &amp; Usage Dashboard</h4>
-                    <p>Grafana dashboard surfacing real-time cloud spend by team, flagging anomalies early.</p>
-                    <div class="tag-row"><span>Grafana</span><span>CloudWatch</span><span>Python</span></div>
-                    <a href="#" class="btn-box">View Project</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section class="experience" id="experience">
-        <h2 class="heading">My <span>Experience</span></h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <span class="date">2026 — Present</span>
-                <h3>Cloud Engineer</h3>
-                <p>Own infrastructure design and operations for a multi-service platform on AWS. Migrated legacy VM workloads to Kubernetes and built CI/CD pipelines used across 8 teams.</p>
-            </div>
-            <div class="timeline-item">
-                <span class="date">2025 — 2026</span>
-                <h3>Intern, Infrastructure Team</h3>
-                <h4>Previous Company</h4>
-                <p>First hands-on exposure to production cloud systems — wrote initial Terraform modules and shadowed on-call rotations.</p>
-            </div>
-            
         </div>
     </section>
 
@@ -1061,7 +1155,7 @@ footer span { color: #0ef; }
                     <span class="edu-date">2024 — 2028</span>
                 </div>
                 <h4>B.Tech, Computer Science &amp; Engineering</h4>
-                <span class="edu-score">CGPA: 9.14</span>
+                <span class="edu-score">CGPA: 8.91</span>
                 <div class="edu-detail">Coursework and hands-on projects in cloud computing, distributed systems and networking, alongside the AWS/Terraform work shown in the Skills and Projects sections above.</div>
                 <p class="edu-hint">Click to expand</p>
             </div>
@@ -1071,7 +1165,7 @@ footer span { color: #0ef; }
                     <span class="edu-date">2021 — 2023</span>
                 </div>
                 <h4>Intermediate (PCM)</h4>
-                <span class="edu-score">92%</span>
+                <span class="edu-score">86.2%</span>
                 <div class="edu-detail">Physics, Chemistry &amp; Mathematics — built the analytical foundation for engineering study.</div>
                 <p class="edu-hint">Click to expand</p>
             </div>
@@ -1081,7 +1175,7 @@ footer span { color: #0ef; }
                     <span class="edu-date">2020 — 2021</span>
                 </div>
                 <h4>Matriculation</h4>
-                <span class="edu-score">88%</span>
+                <span class="edu-score">81.2%</span>
                 <div class="edu-detail">First introduction to computer science fundamentals and programming.</div>
                 <p class="edu-hint">Click to expand</p>
             </div>
@@ -1106,8 +1200,8 @@ footer span { color: #0ef; }
             </div>
             <div class="cert-card">
                 <div class="cert-inner">
-                    <div class="cert-face cert-front"><i class='bx bx-code-block'></i><h3>Terraform Associate Prep</h3><span>HashiCorp</span></div>
-                    <div class="cert-face cert-back">Infrastructure as code fundamentals, state management and module design.</div>
+                    <div class="cert-face cert-front"><i class='bx bx-chip'></i><h3>Large Language Models</h3><span>NPTEL</span></div>
+                    <div class="cert-face cert-back">Foundations of large language models — architectures, training and applications.</div>
                 </div>
             </div>
             <div class="cert-card">
@@ -1119,14 +1213,60 @@ footer span { color: #0ef; }
         </div>
     </section>
 
+    <section class="leetcode" id="leetcode">
+        <h2 class="heading">My <span>LeetCode</span></h2>
+        <div class="leetcode-card">
+            <div class="leetcode-top">
+                <div class="leetcode-user">
+                    <i class='bx bx-code-curly'></i>
+                    <h3>KD_Kundan</h3>
+                </div>
+                <span class="leetcode-rank" id="lc-rank">Loading…</span>
+            </div>
+            <div class="leetcode-body">
+                <div class="lc-ring-wrap">
+                    <svg class="lc-ring" viewBox="0 0 140 140">
+                        <circle class="lc-ring-bg" cx="70" cy="70" r="60"></circle>
+                        <circle class="lc-ring-progress" id="lc-ring-progress" cx="70" cy="70" r="60"></circle>
+                    </svg>
+                    <div class="lc-ring-label"><h4 id="lc-total">—</h4><span>Solved</span></div>
+                </div>
+                <div class="lc-bars">
+                    <div>
+                        <div class="lc-bar-label"><span>Easy</span><span id="lc-easy-frac">—</span></div>
+                        <div class="lc-bar-track"><div class="lc-bar-fill easy" id="lc-easy-fill"></div></div>
+                    </div>
+                    <div>
+                        <div class="lc-bar-label"><span>Medium</span><span id="lc-medium-frac">—</span></div>
+                        <div class="lc-bar-track"><div class="lc-bar-fill medium" id="lc-medium-fill"></div></div>
+                    </div>
+                    <div>
+                        <div class="lc-bar-label"><span>Hard</span><span id="lc-hard-frac">—</span></div>
+                        <div class="lc-bar-track"><div class="lc-bar-fill hard" id="lc-hard-fill"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="lc-heatmap-wrap">
+                <p class="lc-heatmap-title">Heatmap (Last 52 Weeks)</p>
+                <div class="lc-heatmap" id="lc-heatmap"></div>
+                <div class="lc-heatmap-dates">
+                    <span id="lc-date-start"></span>
+                    <span id="lc-date-end"></span>
+                </div>
+            </div>
+            <p class="leetcode-note" id="lc-status">Loading live stats…</p>
+            <a class="btn-box leetcode-link" href="https://leetcode.com/u/KD_Kundan/" target="_blank" rel="noopener">View Full Profile</a>
+        </div>
+    </section>
+
     <section class="contact" id="contact">
         <h2 class="heading">Let's Build Something <span>Amazing</span></h2>
         <p class="cta-sub">Open to cloud engineering roles, freelance infrastructure work, or just a conversation about Kubernetes.</p>
         <div class="cta-card">
             <div class="cta-row">
                 <!-- Click to copy. Update the phone number to your own. -->
-                <div class="cta-pill" data-copy="kundanofficial2005@gmail.com">
-                    <i class='bx bx-envelope'></i> kundanofficial2005@gmail.com
+                <div class="cta-pill" data-copy="kundanchy05@gmail.com">
+                    <i class='bx bx-envelope'></i> kundanchy05@gmail.com
                     <span class="copied-tag">Copied!</span>
                 </div>
                 <div class="cta-pill" data-copy="+91 8092728288">
@@ -1146,13 +1286,20 @@ footer span { color: #0ef; }
     </footer>
 
 <script>
-    var typed = new Typed(".text", {
-        strings: ["Cloud Engineer", "AWS Specialist", "DevOps Engineer", "Kubernetes Enthusiast"],
-        typeSpeed: 100,
-        backSpeed: 80,
-        backDelay: 1200,
-        loop: true
-    });
+    if (typeof Typed !== 'undefined') {
+        var typed = new Typed(".text", {
+            strings: ["Cloud Engineer", "AWS Specialist", "DevOps Engineer", "Kubernetes Enthusiast"],
+            typeSpeed: 100,
+            backSpeed: 80,
+            backDelay: 1200,
+            loop: true
+        });
+    } else {
+        // Fallback if the Typed.js CDN failed to load: show a static role instead of crashing.
+        var typeTarget = document.querySelector('.text');
+        if (typeTarget) typeTarget.textContent = 'Cloud Engineer';
+        console.warn('Typed.js failed to load — showing static text instead.');
+    }
 
     document.getElementById('year').textContent = new Date().getFullYear();
 
@@ -1193,7 +1340,7 @@ footer span { color: #0ef; }
 
     // scroll reveal
     const revealEls = document.querySelectorAll(
-        '.heading, .about-img, .about-content, .skill-box, .portfolio-box, .timeline-item, .edu-item, .cert-card, .cta-sub, .cta-card'
+        '.heading, .about-img, .about-content, .skill-box, .portfolio-box, .edu-item, .cert-card, .cta-sub, .cta-card, .leetcode-card'
     );
     const io = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -1219,7 +1366,7 @@ footer span { color: #0ef; }
             function tick(now) {
                 const progress = Math.min((now - start) / duration, 1);
                 const value = target * progress;
-                el.textContent = (isDecimal ? value.toFixed(1) : Math.floor(value)) + suffix;
+                el.textContent = (isDecimal ? value.toFixed(2) : Math.floor(value)) + suffix;
                 if (progress < 1) requestAnimationFrame(tick);
             }
             requestAnimationFrame(tick);
@@ -1256,6 +1403,89 @@ footer span { color: #0ef; }
             setTimeout(() => pill.classList.remove('copied'), 1500);
         });
     });
+
+    // LeetCode: fetch live stats + heatmap on every page load (client-side, no server cron needed)
+    (function loadLeetCodeStats() {
+        const username = 'KD_Kundan';
+        const statusEl = document.getElementById('lc-status');
+        const rankEl = document.getElementById('lc-rank');
+        const totalEl = document.getElementById('lc-total');
+        const ringProgress = document.getElementById('lc-ring-progress');
+        const heatmapEl = document.getElementById('lc-heatmap');
+        const dateStartEl = document.getElementById('lc-date-start');
+        const dateEndEl = document.getElementById('lc-date-end');
+
+        function setBar(key, solved, total) {
+            const frac = document.getElementById(`lc-${key}-frac`);
+            const fill = document.getElementById(`lc-${key}-fill`);
+            if (solved == null) { frac.textContent = '—'; return; }
+            frac.textContent = total ? `${solved} / ${total}` : `${solved}`;
+            const pct = total ? Math.min((solved / total) * 100, 100) : 0;
+            requestAnimationFrame(() => { fill.style.width = pct + '%'; });
+        }
+
+        function buildHeatmap(calendar) {
+            heatmapEl.innerHTML = '';
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const days = 364; // 52 weeks
+            const start = new Date(today);
+            start.setDate(start.getDate() - (days - 1));
+            // align to the previous Sunday so columns are full weeks
+            start.setDate(start.getDate() - start.getDay());
+
+            for (let d = new Date(start); d <= today; d.setDate(d.getDate() + 1)) {
+                const ts = Math.floor(new Date(d).setHours(0, 0, 0, 0) / 1000).toString();
+                const count = (calendar && calendar[ts]) || 0;
+                const cell = document.createElement('div');
+                let level = 'l0';
+                if (count > 0 && count <= 1) level = 'l1';
+                else if (count <= 3) level = 'l2';
+                else if (count <= 6) level = 'l3';
+                else if (count > 6) level = 'l4';
+                cell.className = 'lc-day ' + level;
+                cell.title = `${new Date(d).toDateString()}: ${count} submission${count === 1 ? '' : 's'}`;
+                heatmapEl.appendChild(cell);
+            }
+            dateStartEl.textContent = start.toISOString().slice(0, 10);
+            dateEndEl.textContent = today.toISOString().slice(0, 10);
+        }
+
+        fetch(`https://leetcode-stats-api.herokuapp.com/${username}`)
+            .then(res => {
+                if (!res.ok) throw new Error('bad response');
+                return res.json();
+            })
+            .then(data => {
+                totalEl.textContent = data.totalSolved ?? '—';
+                setBar('easy', data.easySolved, data.totalEasy);
+                setBar('medium', data.mediumSolved, data.totalMedium);
+                setBar('hard', data.hardSolved, data.totalHard);
+                rankEl.textContent = data.ranking ? `#${data.ranking}` : '';
+
+                if (data.totalSolved && data.totalQuestions) {
+                    const circumference = 2 * Math.PI * 60; // ~377
+                    const pct = Math.min(data.totalSolved / data.totalQuestions, 1);
+                    requestAnimationFrame(() => {
+                        ringProgress.style.strokeDashoffset = circumference * (1 - pct);
+                    });
+                }
+
+                let calendar = {};
+                try {
+                    calendar = typeof data.submissionCalendar === 'string'
+                        ? JSON.parse(data.submissionCalendar)
+                        : (data.submissionCalendar || {});
+                } catch (e) { calendar = {}; }
+                buildHeatmap(calendar);
+
+                statusEl.textContent = 'Live — updates automatically each time you visit';
+            })
+            .catch(() => {
+                buildHeatmap({});
+                statusEl.textContent = 'Stats unavailable right now — visit the profile link below';
+            });
+    })();
 </script>
 </body>
 </html>
