@@ -2460,6 +2460,66 @@ a{
 }
 </style>
 
+
+<style id="header-hero-alignment-final">
+/* =========================================================
+   FINAL HEADER ↔ HERO ALIGNMENT
+   The header logo/nav and the desktop hero use the same
+   horizontal content boundary. No other project content is changed.
+   ========================================================= */
+:root{
+    --desktop-hero-grid-width:1072px;
+    --desktop-content-gutter:max(28px, calc((100vw - var(--desktop-hero-grid-width)) / 2));
+}
+
+@media (min-width:1101px){
+    .header,
+    .header.sticky{
+        padding-left:var(--desktop-content-gutter) !important;
+        padding-right:var(--desktop-content-gutter) !important;
+    }
+
+    .home{
+        /* Keep the exact same left/right boundary as the header. */
+        padding-left:var(--desktop-content-gutter) !important;
+        padding-right:var(--desktop-content-gutter) !important;
+        grid-template-columns:minmax(0,520px) minmax(320px,470px) !important;
+        column-gap:82px !important;
+        justify-content:center !important;
+    }
+}
+
+@media (min-width:1400px){
+    .home{
+        column-gap:82px !important;
+    }
+}
+
+@media (max-width:1100px){
+    .header,
+    .header.sticky,
+    .home{
+        padding-left:6% !important;
+        padding-right:6% !important;
+    }
+}
+
+@media (max-width:860px){
+    .header,
+    .header.sticky{
+        padding-left:6% !important;
+        padding-right:6% !important;
+    }
+}
+
+@media (max-width:560px){
+    .header,
+    .header.sticky{
+        padding-left:5% !important;
+        padding-right:5% !important;
+    }
+}
+</style>
 </head>
 <body>
 
