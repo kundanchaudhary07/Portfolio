@@ -1319,6 +1319,232 @@ footer span{color:var(--theme-accent);}
     .navbar a:hover,.navbar a.active{color:var(--theme-primary);}
 }
 
+
+/* =========================================================
+   FINAL HERO ALIGNMENT — MATCHES THE PROVIDED REFERENCE LAYOUT
+   Content/text/features are untouched. Only hero positioning,
+   photo scale/blending, spacing and decorative alignment change.
+   ========================================================= */
+
+.header{
+    height:70px;
+    padding:0 10%;
+}
+
+.home{
+    min-height:100vh;
+    height:100vh;
+    padding:70px 10% 35px;
+    display:flex;
+    align-items:center;
+    justify-content:flex-start;
+    flex-wrap:nowrap;
+    gap:0;
+    position:relative;
+    overflow:hidden;
+    background:linear-gradient(180deg,#B8DEDF 0%,#DDF2F2 58%,#F7FCFC 100%);
+}
+
+.home::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:
+        radial-gradient(circle at 82% 16%,rgba(139,205,207,.18) 0 1px,transparent 2px) 0 0/36px 36px,
+        linear-gradient(90deg,rgba(184,222,223,.98) 0%,rgba(221,242,242,.86) 48%,rgba(247,252,252,.18) 100%);
+}
+
+/* Soft geometric decoration from the reference composition */
+.home::after{
+    content:"";
+    position:absolute;
+    z-index:1;
+    pointer-events:none;
+    top:50%;
+    right:7%;
+    width:min(44vw,560px);
+    height:min(72vh,560px);
+    transform:translateY(-47%);
+    background-image:url('Portfoliobg.png');
+    background-repeat:no-repeat;
+    background-position:center;
+    background-size:contain;
+    opacity:1;
+    filter:none;
+    mix-blend-mode:normal;
+}
+
+/* Left decorative curved-line treatment */
+.home{
+    --hero-line:rgba(255,255,255,.42);
+}
+.home .home-content::before{
+    content:"";
+    position:absolute;
+    left:-170px;
+    top:-125px;
+    width:310px;
+    height:245px;
+    border:2px solid var(--hero-line);
+    border-right:0;
+    border-bottom:0;
+    border-radius:0 0 110px 0;
+    box-shadow:18px 0 0 -16px transparent;
+    opacity:.9;
+    pointer-events:none;
+}
+
+.home .home-content::after{
+    content:"";
+    position:absolute;
+    left:-120px;
+    bottom:-105px;
+    width:210px;
+    height:120px;
+    background:radial-gradient(circle,rgba(255,255,255,.55) 0 2px,transparent 3px) 0 0/18px 18px;
+    opacity:.48;
+    pointer-events:none;
+}
+
+.home-content{
+    flex:0 0 47%;
+    width:47%;
+    max-width:650px;
+    margin-left:5%;
+    margin-top:18px;
+    position:relative;
+    z-index:4;
+}
+
+.home-content h3{
+    font-size:30px;
+    line-height:1.2;
+}
+
+.home-content h1{
+    font-size:56px;
+    line-height:1.08;
+    margin:4px 0 4px;
+}
+
+.home-content h3:nth-of-type(2){
+    margin-bottom:22px;
+}
+
+.home-content p{
+    max-width:560px;
+    line-height:1.55;
+    margin-top:0;
+}
+
+.home-sci{
+    margin-top:25px;
+}
+
+.home-sci a{
+    width:58px;
+    height:58px;
+    margin:28px 18px 28px 0;
+    font-size:23px;
+}
+
+.btn-box{
+    padding:14px 38px;
+    min-width:0;
+    text-align:center;
+}
+
+.btn-box.outline{
+    margin-left:22px;
+    padding-left:38px;
+    padding-right:38px;
+}
+
+/* The reference has the portrait visually occupying the right half,
+   with the circular artwork large but leaving breathing room at edges. */
+@media (min-width:992px){
+    .home::after{
+        right:5.5%;
+        width:min(43vw,560px);
+        height:min(72vh,560px);
+        transform:translateY(-47%);
+    }
+}
+
+@media (min-width:1400px){
+    .home-content{
+        margin-left:5%;
+        flex-basis:45%;
+        width:45%;
+    }
+    .home::after{
+        right:5.5%;
+        width:560px;
+        height:560px;
+    }
+}
+
+@media (max-width:991px){
+    .header{height:70px;}
+    .home{
+        height:auto;
+        min-height:100vh;
+        padding:105px 5% 55px;
+        flex-direction:column;
+        justify-content:center;
+        text-align:center;
+    }
+    .home-content{
+        width:100%;
+        max-width:680px;
+        margin:0 auto;
+        flex:0 1 auto;
+    }
+    .home::after{
+        position:relative;
+        order:2;
+        top:auto;
+        right:auto;
+        transform:none;
+        width:min(70vw,420px);
+        height:min(70vw,420px);
+        margin:30px auto -10px;
+        flex:0 0 auto;
+    }
+    .home .home-content::before,
+    .home .home-content::after{display:none;}
+    .home-sci{justify-content:center;display:flex;}
+}
+
+@media (max-width:617px){
+    .home{
+        padding:100px 6% 45px;
+    }
+    .home-content h1{font-size:40px;}
+    .home-content h3{font-size:25px;}
+    .home-content p{font-size:15px;}
+    .home::after{
+        width:min(88vw,360px);
+        height:min(88vw,360px);
+        margin-top:22px;
+    }
+    .home-sci a{
+        width:48px;
+        height:48px;
+        margin-right:10px;
+    }
+    .btn-box{
+        padding:12px 26px;
+    }
+    .btn-box.outline{
+        margin-left:8px;
+        padding-left:26px;
+        padding-right:26px;
+    }
+}
+
 </style>
 </head>
 <body>
