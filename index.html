@@ -1540,6 +1540,57 @@ footer span{color:var(--theme-accent);}
     }
 }
 
+
+/* =========================================================
+   FINAL DESKTOP CONSISTENCY FIX
+   Keeps localhost and deployed rendering stable at the same
+   browser viewport, while preventing the hero name from
+   wrapping prematurely.
+   ========================================================= */
+@media (min-width:851px){
+    .header{
+        padding-left:max(32px, calc((100vw - 1480px) / 2));
+        padding-right:max(32px, calc((100vw - 1480px) / 2));
+    }
+
+    .home{
+        padding-left:max(32px, calc((100vw - 1480px) / 2));
+        padding-right:max(32px, calc((100vw - 1480px) / 2));
+        grid-template-columns:minmax(0, 1fr) minmax(430px, 500px);
+        gap:48px;
+    }
+
+    .home-content{
+        max-width:680px;
+        min-width:0;
+    }
+
+    .home-content h1{
+        white-space:nowrap;
+        font-size:clamp(42px, 3.5vw, 52px);
+    }
+
+    .home::after{
+        right:max(20px, calc((100vw - 1480px) / 2));
+        width:min(42vw, 470px);
+        height:min(42vw, 470px);
+    }
+}
+
+@media (min-width:851px) and (max-width:1150px){
+    .home{
+        grid-template-columns:minmax(0, 1fr) minmax(350px, 410px);
+        gap:28px;
+    }
+    .home-content h1{
+        font-size:42px;
+    }
+    .home-content h3,
+    .home-content h3:nth-of-type(2){
+        font-size:24px;
+    }
+}
+
 </style>
 
 <style id="reference-layout-final">
